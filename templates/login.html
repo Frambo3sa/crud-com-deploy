@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOME</title>
+    <link rel="stylesheet" href="../001/static/css/home.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e5f2ff;
+            color: #2eb2ff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #2eb2ff;
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        #form_fundo {
+            background-color: #aed8ff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        #form_frente {
+            background-color: #cbe5ff;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        label {
+            color: #69beff;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #8fcbff;
+            border-radius: 5px;
+            font-size: 1em;
+            margin-bottom: 20px;
+            background-color: #ffffff;
+        }
+
+        button {
+            position: relative;
+            background-color: #2eb2ff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            cursor: pointer;
+            width: 100%;
+            overflow: hidden;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #69beff;
+        }
+
+        button span {
+            position: absolute;
+            display: block;
+        }
+
+        button span:nth-child(1) {
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: #ffffff;
+            animation: btnAnim1 1s linear infinite;
+        }
+
+        button span:nth-child(2) {
+            top: -100%;
+            right: 0;
+            width: 2px;
+            height: 100%;
+            background: #ffffff;
+            animation: btnAnim2 1s linear infinite;
+            animation-delay: 0.25s;
+        }
+
+        button span:nth-child(3) {
+            bottom: 0;
+            right: -100%;
+            width: 100%;
+            height: 2px;
+            background: #ffffff;
+            animation: btnAnim3 1s linear infinite;
+            animation-delay: 0.5s;
+        }
+
+        button span:nth-child(4) {
+            bottom: -100%;
+            left: 0;
+            width: 2px;
+            height: 100%;
+            background: #ffffff;
+            animation: btnAnim4 1s linear infinite;
+            animation-delay: 0.75s;
+        }
+
+        @keyframes btnAnim1 {
+            0% { left: -100%; }
+            50%, 100% { left: 100%; }
+        }
+
+        @keyframes btnAnim2 {
+            0% { top: -100%; }
+            50%, 100% { top: 100%; }
+        }
+
+        @keyframes btnAnim3 {
+            0% { right: -100%; }
+            50%, 100% { right: 100%; }
+        }
+
+        @keyframes btnAnim4 {
+            0% { bottom: -100%; }
+            50%, 100% { bottom: 100%; }
+        }
+
+        .flash_alerta {
+            background-color: #ffcccc;
+            color: #ff0000;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    {% set menssagem = get_flashed_messages() %}
+    {% if menssagem %}
+
+        <div class="flash_alerta">
+            {{ menssagem[0] }}
+        </div>
+
+    {% endif %}
+    <div id="form_fundo">
+        <h1>LOGIN</h1>
+        <div id="form_frente">
+            <form action="/login" id="login" method="post">
+                <label for="nome">NOME</label>
+                <input type="text" name="nome" id="nome" required placeholder="Digite o seu nome?"><br><br>
+                <label for="senha" id="senha">SENHA</label>
+                <input type="password" name="senha" id="senha" required placeholder="Digite Sua senha"> <br><br>
+                <button type="submit" id="btn_login">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>ENTRAR
+                </button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
