@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Médicos</title>
+
+    <style>
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #e5f2ff;
+            margin: 0;
+            padding: 0;
+            color: #2eb2ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        h1.titulo {
+            color: #2eb2ff;
+            font-size: 3em;
+            margin-bottom: 20px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        #form_fundo {
+            background-color: #cbe5ff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 80%;
+            max-width: 600px;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        #form_frente {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            color: #69beff;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: calc(100% - 20px);
+            padding: 12px;
+            border: 2px solid #8fcbff;
+            border-radius: 6px;
+            background-color: #f5faff;
+            margin-bottom: 20px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: #2eb2ff;
+            outline: none;
+        }
+
+        button {
+            background-color: #2eb2ff;
+            color: white;
+            padding: 12px;
+            width: 100%;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #69beff;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .flash_alerta {
+            background-color: #ffcccc;
+            color: #ff0000;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            color: #2eb2ff;
+            margin-bottom: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        #btn_marcar_consulta, #btn_login {
+            background-color: #2eb2ff;
+            color: white;
+            padding: 12px;
+            width: 100%;
+            border-radius: 8px;
+            border: none;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        #btn_marcar_consulta:hover, #btn_login:hover {
+            background-color: #69beff;
+            transform: scale(1.05);
+        }
+
+        #btn_marcar_consulta:active, #btn_login:active {
+            transform: scale(0.98);
+        }
+
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {% set mensagem = get_flashed_messages() %}
+    {% if mensagem %}
+        <div class="flash_alerta">
+            {{ mensagem[0] }}
+        </div>
+    {% endif %}
+
+    <h1 class="titulo">CADASTRO DE MÉDICOS</h1>
+
+    <div id="form_fundo">
+        <h1>CADASTRAR MÉDICO</h1>
+        <div id="form_frente">
+            <form action="/cadastrarMedico" id="cadastrarMedico" method="post">
+                <label for="nomeM">NOME DO MÉDICO</label>
+                <input type="text" name="nomeM" id="nomeM" required placeholder="Digite o nome do médico"><br><br>
+                <label for="senhaM" id="senhaM">SENHA</label>
+                <input type="text" name="senhaM" id="senhaM" required placeholder="Digite a senha"><br><br>
+                <button type="submit" id="btn_login">Cadastrar</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="form_fundo">
+        <h1>CONSULTAR MÉDICO</h1>
+        <div id="form_frente">
+            <form action="/consultarMedico" method="post">
+                <label for="nomeM">NOME DO MÉDICO</label>
+                <input type="text" name="nomeM" id="nomeM" required placeholder="Digite o nome do médico"><br><br>
+                <button type="submit" id="btn_login">Consultar</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="form_fundo" class="ListaMedicos">
+        <h1 class="titulo">MÉDICOS CADASTRADOS</h1>
+        <div id="form_frente" class="ListaMedicos">
+            {% if medico %}
+                {% for c in medico %}
+                    <form action="/excluirMedico" method="post">
+                        <ul>
+                            <input type="hidden" name="medicoPexcluir" value="{{c[0]}}">
+                            <li>NOME: {{c[1]}}</li>
+                            <li>SENHA: {{c[2]}}</li>
+                        </ul>
+                        <button type="submit">EXCLUIR</button>
+                    </form>
+                    <form action="/alterarMedico" method="post">
+                        <input type="hidden" name="medicoPalterar" value="{{c[0]}}">
+                        <input type="text" name="nomeM" value="{{c[1]}}" required>
+                        <input type="text" name="senhaM" value="{{c[2]}}" required>
+                        <button type="submit">ALTERAR</button>
+                    </form>
+                    -----------------------------------------
+                {% endfor %}
+            {% else %}
+                <h1>Não existe médico cadastrado</h1>
+            {% endif %}
+        </div>
+    </div>
+
+    <div>
+        <form action="/consulta" method="get">
+            <button type="submit" id="btn_marcar_consulta">Marcar Consulta</button>
+        </form>
+    </div>
+
+    <div>
+        <form action="/adm" method="get">
+            <button type="submit" id="btn_login">Voltar para Administrador</button>
+        </form>
+    </div>
+
+</body>
+</html>
