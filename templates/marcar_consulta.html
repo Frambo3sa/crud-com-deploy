@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marcar Consulta</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f5f5f5; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
+    <div style="background-color: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); width: 400px; text-align: center;">
+        <h2 style="color: #e60000;">Marcar Consulta</h2>
+        <form action="/marcarConsulta" method="post">
+            <label for="idu">ID do Paciente:</label><br>
+            <input type="number" id="idu" name="idu" required style="width: 100%; padding: 10px; margin-bottom: 10px;"><br>
+            
+            <label for="idme">ID do Médico:</label><br>
+            <input type="number" id="idme" name="idme" required style="width: 100%; padding: 10px; margin-bottom: 10px;"><br>
+            
+            <label for="descricao">Descrição:</label><br>
+            <textarea id="descricao" name="descricao" maxlength="100" required style="width: 100%; padding: 10px; margin-bottom: 10px;"></textarea><br>
+            
+            <button type="submit" style="width: 100%; padding: 10px; background-color: #e60000; color: #fff; border: none; border-radius: 5px;">Marcar Consulta</button>
+        </form>
+    </div>
+</body>
+</html>
