@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrador</title>
+    <link rel="stylesheet" href="../001/static/css/adm.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e5f2ff;
+            color: #2eb2ff;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #2eb2ff;
+            text-align: center;
+            margin: 20px 0;
+            font-size: 2.5em;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        #form_fundo {
+            background-color: #aed8ff;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 20px auto;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.8s ease-in-out;
+        }
+
+        #form_frente {
+            background-color: #cbe5ff;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        label {
+            color: #69beff;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"], input[type="file"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 2px solid #8fcbff;
+            border-radius: 5px;
+            font-size: 1em;
+            background-color: #ffffff;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus, input[type="file"]:focus {
+            border-color: #69beff;
+            outline: none;
+        }
+
+        button {
+            background-color: #2eb2ff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: #69beff;
+            transform: translateY(-3px);
+        }
+
+        .flash_alerta {
+            background-color: #ffcccc;
+            color: #ff0000;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            color: #2eb2ff;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+
+<body>
+    {% set mensagem = get_flashed_messages() %}
+    {% if mensagem %}
+        <div class="flash_alerta">
+            {{ mensagem[0] }}
+        </div>
+    {% endif %}
+
+    <h1 class="titulo">ADMINISTRADOR</h1>
+
+    <div id="form_fundo">
+        <h1>CADASTRAR USUÁRIO</h1>
+        <div id="form_frente">
+            <form action="/cadastrarUsuario" id="cadastrarUsuario" method="post">
+                <label for="nome">NOME</label>
+                <input type="text" name="nome" id="nome" required placeholder="Digite o nome do usuário"><br><br>
+                <label for="senha" id="senha">SENHA</label>
+                <input type="text" name="senha" id="senha" required placeholder="Digite a senha"><br><br>
+                <button type="submit" id="btn_login">Cadastrar</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="form_fundo">
+        <h1>CONSULTAR USUÁRIO</h1>
+        <div id="form_frente">
+            <form action="/consultarUsuario" method="post">
+                <label for="nome">NOME</label>
+                <input type="text" name="nome" id="nome" required placeholder="Digite o nome do usuário"><br><br>
+                <button type="submit" id="btn_login">Consultar</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="form_fundo" class="ListaUsuarios">
+        <h1 class="titulo">USUÁRIOS CADASTRADOS</h1>
+        <div id="form_frente" class="ListaUsuarios">
+            {% if usuarios %}
+                {% for c in usuarios %}
+                    <form action="/excluirUsuario" method="post">
+                        <ul>
+                            <input type="hidden" name="usuarioPexcluir" value="{{c[0]}}">
+                            <input type="hidden" name="nome" value="{{c[1]}}">
+                            <li>NOME: {{c[1]}}</li>
+                            <li>SENHA: {{c[2]}}</li>
+                            <li>ID: {{c[0]}}</li>
+                        </ul>
+                        <button type="submit">EXCLUIR</button>
+                    </form>
+                    <form action="/alterarUsuario" method="post">
+                        <input type="hidden" name="usuarioPalterar" value="{{c[0]}}">
+                        <input type="text" name="nome" value="{{c[1]}}" required>
+                        <input type="text" name="senha" value="{{c[2]}}" required>
+                        <button type="submit">ALTERAR</button>
+                    </form>
+                    -----------------------------------------
+                {% endfor %}
+            {% else %}
+                <h1>Não existe usuário cadastrado</h1>
+            {% endif %}
+        </div>
+    </div>
+
+    <div>
+        <form action="/m" method="get">
+            <button type="submit" id="btn_login">Ir para Médicos</button>
+        </form>
+    </div>
+
+    
+</body>
+
+</html>
